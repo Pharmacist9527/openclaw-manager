@@ -16,6 +16,9 @@ jobs:
           - os: windows-latest
             target: node22-win-x64
             suffix: win-x64.exe
+          - os: windows-latest
+            target: node22-win-arm64
+            suffix: win-arm64.exe
           - os: macos-latest
             target: node22-macos-x64
             suffix: macos-x64
@@ -25,6 +28,9 @@ jobs:
           - os: ubuntu-latest
             target: node22-linux-x64
             suffix: linux-x64
+          - os: ubuntu-latest
+            target: node22-linux-arm64
+            suffix: linux-arm64
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -48,11 +54,32 @@ jobs:
       - name: Package binary
         run: npx pkg dist/setup.cjs --targets ${{ matrix.target }} --output "dist/openclaw-setup-${{ steps.version.outputs.VERSION }}-${{ matrix.suffix }}" --compress GZip
 
-      - name: Upload artifact
+      - name: Create DMG (macOS only)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          BINARY="dist/openclaw-setup-${VERSION}-${{ matrix.suffix }}"
+          DMG="dist/openclaw-setup-${VERSION}-${{ matrix.suffix }}.dmg"
+          chmod +x "$BINARY"
+          # Create a temporary directory for DMG contents
+          mkdir -p dmg-contents
+          cp "$BINARY" "dmg-contents/OpenClaw Setup"
+          hdiutil create -volname "OpenClaw Setup ${VERSION}" -srcfolder dmg-contents -ov -format UDZO "$DMG"
+          rm -rf dmg-contents
+
+      - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
           name: openclaw-setup-${{ steps.version.outputs.VERSION }}-${{ matrix.suffix }}
           path: dist/openclaw-setup-${{ steps.version.outputs.VERSION }}-${{ matrix.suffix }}
+
+      - name: Upload DMG artifact (macOS only)
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: openclaw-setup-${{ steps.version.outputs.VERSION }}-${{ matrix.suffix }}.dmg
+          path: dist/openclaw-setup-${{ steps.version.outputs.VERSION }}-${{ matrix.suffix }}.dmg
 
   release:
     needs: build
