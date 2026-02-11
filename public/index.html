@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Setup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #fafafa;
+    color: #71717a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 520px;
+    padding: 48px 40px;
+    background: #fff;
+    border: 1.5px solid #e4e4e7;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  /* Brand */
+  .brand {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .brand-name {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #09090b;
+    line-height: 1;
+  }
+  .brand-sub {
+    font-size: 14px;
+    color: #a1a1aa;
+    margin-top: 12px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  /* Steps */
+  .steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  .step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 2px solid #e4e4e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #a1a1aa;
+    transition: all 0.5s ease;
+  }
+  .step-num.active {
+    border-color: #09090b;
+    color: #09090b;
+  }
+  .step-num.done {
+    border-color: #09090b;
+    background: #09090b;
+    color: #fff;
+    font-weight: 700;
+  }
+  .step-line {
+    width: 80px; height: 2px;
+    background: #e4e4e7;
+    transition: background 0.5s ease;
+  }
+  .step-line.done { background: #09090b; }
+
+  /* Panels */
+  .panel { display: none; }
+  .panel.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Form */
+  .field {
+    margin-bottom: 32px;
+    padding: 20px;
+    background: #fafafa;
+    border: 1px solid #f0f0f2;
+    border-radius: 14px;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #09090b;
+    margin-bottom: 14px;
+  }
+
+  input {
+    width: 100%;
+    padding: 16px 18px;
+    background: #f9f9fb;
+    border: 1.5px solid #e4e4e7;
+    border-radius: 10px;
+    color: #09090b;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  input:focus {
+    border-color: #09090b;
+    box-shadow: 0 0 0 3px rgba(9,9,11,0.08);
+    background: #fff;
+  }
+  input::placeholder { color: #d4d4d8; }
+
+  .field-hint {
+    font-size: 14px;
+    color: #a1a1aa;
+    margin-top: 12px;
+  }
+  .field-hint a {
+    color: #09090b;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .field-hint a:hover {
+    text-decoration-thickness: 2.5px;
+  }
+
+  /* Button */
+  button {
+    width: 100%;
+    padding: 18px;
+    background: #09090b;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 24px;
+    box-shadow: 0 2px 8px rgba(9,9,11,0.18);
+  }
+  button:hover {
+    background: #27272a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(9,9,11,0.22);
+  }
+  button:active { transform: translateY(0); }
+  button:disabled {
+    background: #e4e4e7;
+    color: #a1a1aa;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Status */
+  .status {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 15px;
+    min-height: 20px;
+    font-weight: 500;
+  }
+  .status.error { color: #dc2626; }
+  .status.success { color: #09090b; }
+  .status.loading { color: #71717a; }
+
+  /* Done */
+  .done-box {
+    text-align: center;
+    margin-top: 48px;
+    padding: 56px 32px;
+    border: 2px solid #e4e4e7;
+    border-radius: 16px;
+    display: none;
+  }
+  .done-box .check {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 3px solid #09090b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 32px;
+    color: #09090b;
+  }
+  .done-box h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #09090b;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  .done-box p {
+    font-size: 15px;
+    color: #71717a;
+    line-height: 1.7;
+  }
+
+  /* Loading */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .status.loading { animation: pulse 1.5s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="brand">
+    <div class="brand-name">OpenClaw</div>
+    <div class="brand-sub">Powered by EvoLink</div>
+  </div>
+
+  <div class="steps">
+    <div class="step-num active" id="dot1">1</div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-num" id="dot2">2</div>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="panel active" id="step1">
+    <form id="installForm">
+      <div class="field">
+        <label>EvoLink API Key</label>
+        <input type="password" id="apiKey" placeholder="sk-..." required autocomplete="off">
+        <div class="field-hint">Get your key at <a href="https://evolink.ai" target="_blank">evolink.ai</a></div>
+      </div>
+      <div class="field">
+        <label>Telegram Bot Token</label>
+        <input type="text" id="botToken" placeholder="123456789:ABCdef..." required autocomplete="off">
+        <div class="field-hint">Create a bot via <a href="https://t.me/BotFather" target="_blank">@BotFather</a> on Telegram</div>
+      </div>
+      <button type="submit" id="installBtn">Deploy</button>
+    </form>
+    <div class="status" id="installStatus"></div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="panel" id="step2">
+    <form id="connectForm">
+      <div class="field">
+        <label>Your Telegram User ID</label>
+        <input type="text" id="telegramId" placeholder="123456789" required autocomplete="off">
+        <div class="field-hint">Send /start to <a href="https://t.me/userinfobot" target="_blank">@userinfobot</a> to get your ID</div>
+      </div>
+      <button type="submit" id="connectBtn">Connect</button>
+    </form>
+    <div class="status" id="connectStatus"></div>
+    <div class="done-box" id="doneBox">
+      <div class="check">&#10003;</div>
+      <h3>You're all set</h3>
+      <p>Open Telegram and send a message to your bot.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+$("installForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const apiKey = $("apiKey").value.trim();
+  const botToken = $("botToken").value.trim();
+
+  $("installBtn").disabled = true;
+  $("installStatus").className = "status loading";
+  $("installStatus").textContent = "Deploying...";
+
+  try {
+    const res = await fetch("/setup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ apiKey, botToken }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Deploy failed");
+
+    $("installStatus").className = "status success";
+    $("installStatus").textContent = "Deployed";
+
+    setTimeout(() => {
+      $("step1").classList.remove("active");
+      $("step2").classList.add("active");
+      $("dot1").classList.replace("active", "done");
+      $("dot1").textContent = "\u2713";
+      $("line1").classList.add("done");
+      $("dot2").classList.add("active");
+    }, 800);
+  } catch (err) {
+    $("installStatus").className = "status error";
+    $("installStatus").textContent = err.message;
+    $("installBtn").disabled = false;
+  }
+});
+
+$("connectForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const telegramId = $("telegramId").value.trim();
+
+  $("connectBtn").disabled = true;
+  $("connectStatus").className = "status loading";
+  $("connectStatus").textContent = "Connecting...";
+
+  try {
+    const res = await fetch("/connect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ telegramId }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Failed");
+
+    $("connectStatus").className = "status success";
+    $("connectStatus").textContent = "";
+    $("connectForm").style.display = "none";
+    $("doneBox").style.display = "block";
+    $("dot2").classList.replace("active", "done");
+    $("dot2").textContent = "\u2713";
+
+    setTimeout(() => fetch("/shutdown", { method: "POST" }).catch(() => {}), 3000);
+  } catch (err) {
+    $("connectStatus").className = "status error";
+    $("connectStatus").textContent = err.message;
+    $("connectBtn").disabled = false;
+  }
+});
+</script>
+</body>
+</html>
