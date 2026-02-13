@@ -65,6 +65,20 @@ jobs:
           hdiutil create -volname "OpenClaw Manager ${VERSION}" -srcfolder dmg-contents -ov -format UDZO "$DMG"
           rm -rf dmg-contents
 
+      - name: Create stable-name copies for latest download links
+        shell: bash
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          SUFFIX="${{ matrix.suffix }}"
+          # Binary (Linux/Windows)
+          if [ -f "dist/openclaw-manager-${VERSION}-${SUFFIX}" ]; then
+            cp "dist/openclaw-manager-${VERSION}-${SUFFIX}" "dist/openclaw-manager-${SUFFIX}"
+          fi
+          # DMG (macOS)
+          if [ -f "dist/openclaw-manager-${VERSION}-${SUFFIX}.dmg" ]; then
+            cp "dist/openclaw-manager-${VERSION}-${SUFFIX}.dmg" "dist/openclaw-manager-${SUFFIX}.dmg"
+          fi
+
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
@@ -77,6 +91,19 @@ jobs:
         with:
           name: openclaw-manager-${{ steps.version.outputs.VERSION }}-${{ matrix.suffix }}.dmg
           path: dist/openclaw-manager-${{ steps.version.outputs.VERSION }}-${{ matrix.suffix }}.dmg
+
+      - name: Upload stable-name binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openclaw-manager-${{ matrix.suffix }}
+          path: dist/openclaw-manager-${{ matrix.suffix }}
+
+      - name: Upload stable-name DMG artifact (macOS only)
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: openclaw-manager-${{ matrix.suffix }}.dmg
+          path: dist/openclaw-manager-${{ matrix.suffix }}.dmg
 
   release:
     needs: build

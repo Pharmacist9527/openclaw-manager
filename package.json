@@ -1,6 +1,6 @@
 {
   "name": "openclaw-manager",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "type": "module",
   "description": "OpenClaw multi-instance manager with EvoLink integration",
   "bin": {
