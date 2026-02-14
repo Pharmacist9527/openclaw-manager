@@ -37,9 +37,9 @@
     margin-bottom: 40px;
   }
   .brand-name {
-    font-size: 48px;
+    font-size: 38px;
     font-weight: 800;
-    letter-spacing: -2px;
+    letter-spacing: -1.5px;
     color: #09090b;
     line-height: 1;
   }
@@ -271,7 +271,7 @@
 
 <div class="container">
   <div class="brand">
-    <div class="brand-name">OpenClaw</div>
+    <div class="brand-name">OpenClaw Manager</div>
     <div class="brand-sub">Powered by EvoLink</div>
   </div>
 
@@ -435,7 +435,8 @@ function renderProfiles(profiles) {
     html += '<span class="profile-port">:' + p.port + '</span>';
     html += '<div style="font-size:12px;color:#a1a1aa;margin-top:4px">';
     if (p.model) html += esc(p.model);
-    if (p.model && p.channel) html += ' · ';
+    html += ' <span style="cursor:pointer;color:#09090b;font-size:14px;margin-left:4px;vertical-align:middle" title="Change model" onclick="openModelModal(\'' + attrName + '\',\'' + esc(p.modelId || '') + '\')">\u270E</span>';
+    if (p.model && p.channel) html += ' \u00b7 ';
     if (p.channel) html += esc(p.channel);
     html += '</div>';
     html += '</div>';
@@ -515,6 +516,82 @@ function doDelete(profile, btn) {
   };
   xhr.onerror = function() { alert("Network error"); refreshProfiles(); };
   xhr.send(JSON.stringify({ profile: profile }));
+}
+
+function openModelModal(profile, currentModelId) {
+  // Remove existing modal if any
+  var old = document.getElementById("modelModal");
+  if (old) old.remove();
+
+  var models = STATE.models || [];
+  var overlay = document.createElement("div");
+  overlay.id = "modelModal";
+  overlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;z-index:9999;animation:fadeIn 0.2s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#fff;border-radius:16px;padding:28px 24px;width:320px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.15)";
+
+  var title = document.createElement("div");
+  title.style.cssText = "font-size:16px;font-weight:700;color:#09090b;margin-bottom:18px;text-align:center";
+  title.textContent = "Switch Model";
+  box.appendChild(title);
+
+  var list = document.createElement("div");
+  for (var i = 0; i < models.length; i++) {
+    (function(m) {
+      var item = document.createElement("div");
+      var isCurrent = m.id === currentModelId;
+      item.style.cssText = "padding:12px 16px;border-radius:10px;margin-bottom:6px;cursor:pointer;font-size:14px;font-weight:500;transition:all 0.15s ease;"
+        + (isCurrent ? "background:#09090b;color:#fff;" : "background:#fafafa;color:#09090b;border:1px solid #f0f0f2;");
+      item.textContent = m.name;
+      if (isCurrent) {
+        item.textContent = m.name + "  \u2713";
+        item.style.cursor = "default";
+      }
+      item.onmouseenter = function() { if (!isCurrent) item.style.background = "#f0f0f2"; };
+      item.onmouseleave = function() { if (!isCurrent) item.style.background = "#fafafa"; };
+      item.onclick = function() {
+        if (isCurrent) return;
+        // Disable all items, show loading
+        var items = list.querySelectorAll("div");
+        for (var k = 0; k < items.length; k++) {
+          items[k].style.pointerEvents = "none";
+          items[k].style.opacity = "0.5";
+        }
+        item.style.opacity = "1";
+        item.textContent = m.name + "  ...";
+        item.style.background = "#09090b";
+        item.style.color = "#fff";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/change-model");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function() {
+          if (xhr.status !== 200) {
+            try { alert("Change model failed: " + JSON.parse(xhr.responseText).error); } catch(e) { alert("Change model failed"); }
+          }
+          overlay.remove();
+          refreshProfiles();
+        };
+        xhr.onerror = function() { alert("Network error"); overlay.remove(); refreshProfiles(); };
+        xhr.send(JSON.stringify({ profile: profile, modelId: m.id }));
+      };
+      list.appendChild(item);
+    })(models[i]);
+  }
+  box.appendChild(list);
+
+  var cancelBtn = document.createElement("div");
+  cancelBtn.style.cssText = "text-align:center;margin-top:14px;font-size:13px;color:#a1a1aa;cursor:pointer;font-weight:500";
+  cancelBtn.textContent = "Cancel";
+  cancelBtn.onmouseenter = function() { cancelBtn.style.color = "#09090b"; };
+  cancelBtn.onmouseleave = function() { cancelBtn.style.color = "#a1a1aa"; };
+  cancelBtn.onclick = function() { overlay.remove(); };
+  box.appendChild(cancelBtn);
+
+  overlay.appendChild(box);
+  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+  document.body.appendChild(overlay);
 }
 
 // Init
