@@ -604,6 +604,18 @@ function openModelModal(profile, currentModelId) {
   document.body.appendChild(overlay);
 }
 
+// Auto-refresh every 3s when home is visible
+var pollTimer = null;
+function startPolling() {
+  stopPolling();
+  pollTimer = setInterval(function() {
+    if ($("home").classList.contains("active")) refreshProfiles();
+  }, 3000);
+}
+function stopPolling() {
+  if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+}
+
 // Init
 function init() {
   initModels();
@@ -618,18 +630,6 @@ function init() {
   }
 }
 init();
-
-// Auto-refresh every 3s when home is visible
-var pollTimer = null;
-function startPolling() {
-  stopPolling();
-  pollTimer = setInterval(function() {
-    if ($("home").classList.contains("active")) refreshProfiles();
-  }, 3000);
-}
-function stopPolling() {
-  if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
-}
 
 // --- Login ---
 $("loginBtn").addEventListener("click", function() {

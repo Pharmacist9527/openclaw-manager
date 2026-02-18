@@ -49,15 +49,19 @@ async function main() {
   if (serverMode) {
     var config = loadOrCreateConfig(resetToken);
     var port = portOverride || config.port;
-    console.log("┌──────────────────────────────────────────┐");
-    console.log("│  Server Mode                             │");
-    console.log("│                                          │");
-    console.log("│  URL:   http://0.0.0.0:" + port + String("").padEnd(Math.max(0, 24 - String(port).length)) + "│");
-    console.log("│  Token: " + config.token + "  │");
-    console.log("│                                          │");
-    console.log("│  SSH tunnel example:                     │");
-    console.log("│  ssh -L " + port + ":localhost:" + port + " user@server     │");
-    console.log("└──────────────────────────────────────────┘");
+    var W = 42; // interior width between │ and │
+    function boxLine(text) {
+      return "\u2502  " + text + " ".repeat(Math.max(0, W - 2 - text.length)) + "\u2502";
+    }
+    console.log("\u250C" + "\u2500".repeat(W) + "\u2510");
+    console.log(boxLine("Server Mode"));
+    console.log(boxLine(""));
+    console.log(boxLine("URL:   http://0.0.0.0:" + port));
+    console.log(boxLine("Token: " + config.token));
+    console.log(boxLine(""));
+    console.log(boxLine("SSH tunnel example:"));
+    console.log(boxLine("ssh -L " + port + ":localhost:" + port + " user@server"));
+    console.log("\u2514" + "\u2500".repeat(W) + "\u2518");
     console.log("");
     await startSetupServer({ serverMode: true, port: port, token: config.token });
   } else {
