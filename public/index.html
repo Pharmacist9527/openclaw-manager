@@ -24,7 +24,7 @@
 
   .container {
     width: 100%;
-    max-width: 520px;
+    max-width: 640px;
     padding: 48px 40px;
     background: #fff;
     border: 1.5px solid #e4e4e7;
@@ -71,6 +71,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
+  }
+  .profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
   }
   .profile-info {
     display: flex;
@@ -443,11 +450,12 @@ function renderProfiles(profiles) {
     html += '</div>';
     html += '<div class="profile-actions">';
     if (running) {
+      html += '<button class="sm" onclick="openPairingModal(\'' + attrName + '\',\'' + esc(p.channel || '').toLowerCase() + '\')">Approve</button>';
       html += '<button class="sm danger" onclick="doStop(\'' + attrName + '\',this)">Stop</button>';
     } else {
       html += '<button class="sm" onclick="doStart(\'' + attrName + '\',this)">Start</button>';
     }
-    html += ' <button class="sm danger" onclick="doDelete(\'' + attrName + '\',this)" style="margin-left:6px">Delete</button>';
+    html += '<button class="sm danger" onclick="doDelete(\'' + attrName + '\',this)">Delete</button>';
     html += '</div>';
     html += '</div>';
   }
@@ -584,6 +592,148 @@ function openModelModal(profile, currentModelId) {
   var cancelBtn = document.createElement("div");
   cancelBtn.style.cssText = "text-align:center;margin-top:14px;font-size:13px;color:#a1a1aa;cursor:pointer;font-weight:500";
   cancelBtn.textContent = "Cancel";
+  cancelBtn.onmouseenter = function() { cancelBtn.style.color = "#09090b"; };
+  cancelBtn.onmouseleave = function() { cancelBtn.style.color = "#a1a1aa"; };
+  cancelBtn.onclick = function() { overlay.remove(); };
+  box.appendChild(cancelBtn);
+
+  overlay.appendChild(box);
+  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+  document.body.appendChild(overlay);
+}
+
+function openPairingModal(profile, channel) {
+  var old = document.getElementById("pairingModal");
+  if (old) old.remove();
+
+  var overlay = document.createElement("div");
+  overlay.id = "pairingModal";
+  overlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;z-index:9999;animation:fadeIn 0.2s ease";
+
+  var box = document.createElement("div");
+  box.style.cssText = "background:#fff;border-radius:16px;padding:28px 24px;width:360px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.15)";
+
+  var title = document.createElement("div");
+  title.style.cssText = "font-size:16px;font-weight:700;color:#09090b;margin-bottom:18px;text-align:center";
+  title.textContent = "Pending Approvals";
+  box.appendChild(title);
+
+  var listDiv = document.createElement("div");
+  listDiv.style.cssText = "min-height:40px;text-align:center;color:#a1a1aa;font-size:14px";
+  listDiv.textContent = "Loading...";
+  box.appendChild(listDiv);
+
+  function loadRequests() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/pairing-requests?profile=" + encodeURIComponent(profile) + "&channel=" + encodeURIComponent(channel));
+    xhr.onload = function() {
+      if (xhr.status !== 200) { listDiv.textContent = "Failed to load"; return; }
+      var data = JSON.parse(xhr.responseText);
+      var reqs = data.requests || [];
+      if (data.error) {
+        listDiv.innerHTML = '<div style="color:#ef4444;font-size:13px;margin-bottom:8px">Error: ' + esc(data.error) + '</div>';
+      } else if (reqs.length === 0) {
+        listDiv.textContent = "No pending requests";
+      } else {
+        listDiv.innerHTML = "";
+      }
+      for (var i = 0; i < reqs.length; i++) {
+        (function(r) {
+          var item = document.createElement("div");
+          item.style.cssText = "padding:12px 16px;border-radius:10px;margin-bottom:6px;background:#fafafa;border:1px solid #f0f0f2;display:flex;align-items:center;justify-content:space-between";
+          var info = document.createElement("div");
+          info.style.cssText = "font-size:13px;color:#09090b;font-weight:500";
+          info.textContent = r.displayName || r.senderId || r.code || "Unknown";
+          if (r.code) {
+            var codeSpan = document.createElement("div");
+            codeSpan.style.cssText = "font-size:11px;color:#a1a1aa;margin-top:2px";
+            codeSpan.textContent = "Code: " + r.code;
+            info.appendChild(codeSpan);
+          }
+          item.appendChild(info);
+          var btn = document.createElement("button");
+          btn.className = "sm";
+          btn.style.cssText = "padding:6px 14px;font-size:12px;margin:0";
+          btn.textContent = "Approve";
+          btn.onclick = function() {
+            btn.disabled = true;
+            btn.textContent = "...";
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open("POST", "/pairing-approve");
+            xhr2.setRequestHeader("Content-Type", "application/json");
+            xhr2.onload = function() {
+              if (xhr2.status === 200) {
+                item.style.background = "#f0fdf4";
+                item.style.borderColor = "#bbf7d0";
+                btn.textContent = "Done";
+                setTimeout(loadRequests, 500);
+              } else {
+                btn.textContent = "Failed";
+                btn.disabled = false;
+              }
+            };
+            xhr2.onerror = function() { btn.textContent = "Error"; btn.disabled = false; };
+            xhr2.send(JSON.stringify({ profile: profile, channel: channel, code: r.code }));
+          };
+          item.appendChild(btn);
+          listDiv.appendChild(item);
+        })(reqs[i]);
+      }
+    };
+    xhr.onerror = function() { listDiv.textContent = "Network error"; };
+    xhr.send();
+  }
+  loadRequests();
+
+  // Manual code input
+  var manualDiv = document.createElement("div");
+  manualDiv.style.cssText = "margin-top:16px;padding-top:14px;border-top:1px solid #f0f0f2";
+  var manualLabel = document.createElement("div");
+  manualLabel.style.cssText = "font-size:12px;color:#a1a1aa;margin-bottom:8px;font-weight:500";
+  manualLabel.textContent = "Or enter pairing code manually:";
+  manualDiv.appendChild(manualLabel);
+  var manualRow = document.createElement("div");
+  manualRow.style.cssText = "display:flex;gap:8px";
+  var manualInput = document.createElement("input");
+  manualInput.type = "text";
+  manualInput.placeholder = "e.g. LBC7KWF6";
+  manualInput.style.cssText = "flex:1;padding:10px 12px;border:1.5px solid #e4e4e7;border-radius:8px;font-size:14px;font-family:Inter,sans-serif;outline:none";
+  manualRow.appendChild(manualInput);
+  var manualBtn = document.createElement("button");
+  manualBtn.className = "sm";
+  manualBtn.style.cssText = "padding:10px 16px;font-size:13px;margin:0;white-space:nowrap";
+  manualBtn.textContent = "Approve";
+  manualBtn.onclick = function() {
+    var code = manualInput.value.trim();
+    if (!code) return;
+    manualBtn.disabled = true;
+    manualBtn.textContent = "...";
+    var xhr2 = new XMLHttpRequest();
+    xhr2.open("POST", "/pairing-approve");
+    xhr2.setRequestHeader("Content-Type", "application/json");
+    xhr2.onload = function() {
+      if (xhr2.status === 200) {
+        manualBtn.textContent = "Approved";
+        manualInput.value = "";
+        setTimeout(function() { manualBtn.textContent = "Approve"; manualBtn.disabled = false; }, 1500);
+        loadRequests();
+      } else {
+        var errMsg = "Failed";
+        try { errMsg = JSON.parse(xhr2.responseText).error || errMsg; } catch(e) {}
+        manualBtn.textContent = errMsg;
+        manualBtn.disabled = false;
+      }
+    };
+    xhr2.onerror = function() { manualBtn.textContent = "Error"; manualBtn.disabled = false; };
+    xhr2.send(JSON.stringify({ profile: profile, channel: channel, code: code }));
+  };
+  manualRow.appendChild(manualBtn);
+  manualDiv.appendChild(manualRow);
+  box.appendChild(manualDiv);
+
+  var cancelBtn = document.createElement("div");
+  cancelBtn.style.cssText = "text-align:center;margin-top:14px;font-size:13px;color:#a1a1aa;cursor:pointer;font-weight:500";
+  cancelBtn.textContent = "Close";
   cancelBtn.onmouseenter = function() { cancelBtn.style.color = "#09090b"; };
   cancelBtn.onmouseleave = function() { cancelBtn.style.color = "#a1a1aa"; };
   cancelBtn.onclick = function() { overlay.remove(); };
