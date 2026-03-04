@@ -596,7 +596,7 @@
       </div>
       <div class="field" id="telegramTokenField">
         <label>Telegram Bot Token</label>
-        <input type="text" id="botToken" placeholder="123456789:ABCdef..." autocomplete="off">
+        <input type="password" id="botToken" placeholder="123456789:ABCdef..." autocomplete="off">
         <div class="field-hint">Create a bot via <a href="https://t.me/BotFather" target="_blank">@BotFather</a></div>
       </div>
       <div class="field" id="feishuAppIdField" style="display:none">
@@ -1035,8 +1035,16 @@ function doStart(profile, btn) {
       btn.disabled = false;
       btn.textContent = originalText;
     } else {
-      // 成功后等待更长时间再刷新，确保状态已更新
-      setTimeout(function() { refreshProfiles(); }, 3000);
+      // 立即刷新一次，然后定期轮询直到 gateway 启动完成
+      refreshProfiles();
+      var pollCount = 0;
+      var pollInterval = setInterval(function() {
+        refreshProfiles();
+        pollCount++;
+        if (pollCount >= 15) { // 最多轮询 15 次（15秒）
+          clearInterval(pollInterval);
+        }
+      }, 1000);
     }
   };
   xhr.onerror = function() {
@@ -1197,8 +1205,16 @@ function doStop(profile, btn) {
       btn.disabled = false;
       btn.textContent = originalText;
     } else {
-      // 成功后等待更长时间再刷新，确保状态已更新
-      setTimeout(function() { refreshProfiles(); }, 3000);
+      // 立即刷新一次，然后定期轮询直到 gateway 停止完成
+      refreshProfiles();
+      var pollCount = 0;
+      var pollInterval = setInterval(function() {
+        refreshProfiles();
+        pollCount++;
+        if (pollCount >= 8) { // 最多轮询 8 次（8秒）
+          clearInterval(pollInterval);
+        }
+      }, 1000);
     }
   };
   xhr.onerror = function() {
