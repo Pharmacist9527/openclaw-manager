@@ -29,9 +29,27 @@ function checkAdmin() {
 
 async function main() {
   console.log("\nOpenClaw Manager\n");
-  checkAdmin();
-  await checkAndInstallOpenclaw();
-  await startSetupServer();
+
+  // 收集环境检查错误，但不中断启动
+  var envErrors = [];
+
+  try {
+    checkAdmin();
+  } catch (err) {
+    envErrors.push({ type: "admin", message: err.message });
+    console.error("Warning: " + err.message);
+  }
+
+  try {
+    await checkAndInstallOpenclaw();
+  } catch (err) {
+    envErrors.push({ type: "openclaw", message: err.message });
+    console.error("Warning: " + err.message);
+  }
+
+  // 无论环境检查是否通过，都启动前端服务器
+  // 将错误信息传递给服务器，在前端显示
+  await startSetupServer(envErrors);
 }
 
 main().catch(async function(err) {

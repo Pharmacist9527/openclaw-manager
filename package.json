@@ -1,6 +1,6 @@
 {
   "name": "openclaw-manager",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "type": "module",
   "description": "OpenClaw multi-instance manager with EvoLink integration",
   "bin": {
@@ -15,8 +15,8 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
-    "esbuild": "^0.25.0",
-    "@yao-pkg/pkg": "^6.5.0"
+    "@yao-pkg/pkg": "^6.5.0",
+    "esbuild": "^0.25.0"
   },
   "engines": {
     "node": ">=22.12.0"

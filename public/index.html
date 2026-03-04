@@ -108,6 +108,132 @@
     font-size: 15px;
   }
 
+  /* Environment error banner */
+  .env-error-banner {
+    background: #fef2f2;
+    border: 1.5px solid #fecaca;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 28px;
+    animation: fadeIn 0.3s ease;
+  }
+  .env-error-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #dc2626;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .env-error-icon {
+    font-size: 20px;
+  }
+  .env-error-desc {
+    font-size: 14px;
+    color: #991b1b;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .env-error-list {
+    margin: 0;
+    padding-left: 20px;
+    list-style: none;
+  }
+  .env-error-list li {
+    margin: 8px 0;
+    color: #7f1d1d;
+    font-size: 13px;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 8px;
+  }
+  .env-error-list li:before {
+    content: "•";
+    position: absolute;
+    left: -12px;
+    color: #dc2626;
+    font-weight: 700;
+  }
+
+  /* Fix button */
+  .fix-button {
+    margin-top: 12px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+    width: auto;
+  }
+  .fix-button:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Fix hint */
+  .fix-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #71717a;
+    line-height: 1.5;
+  }
+  .fix-hint-secondary {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #a1a1aa;
+    line-height: 1.5;
+  }
+
+  /* Fix progress overlay */
+  .fix-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+  .fix-modal {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    min-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+  .fix-modal h3 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #09090b;
+  }
+  .fix-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e4e4e7;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 20px 0;
+  }
+  .fix-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+  .fix-progress-text {
+    text-align: center;
+    color: #71717a;
+    font-size: 14px;
+  }
+
   /* Buttons */
   button {
     width: 100%;
@@ -146,6 +272,8 @@
   }
   button.danger { background: #ef4444; }
   button.danger:hover { background: #dc2626; }
+  button.warning { background: #f59e0b; }
+  button.warning:hover { background: #d97706; }
 
   /* Fields */
   .field {
@@ -272,6 +400,137 @@
     color: #09090b;
     margin-top: 6px;
   }
+
+  /* Error diagnosis */
+  .error-diagnosis {
+    text-align: left;
+    padding: 16px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    margin-top: 12px;
+  }
+  .error-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #dc2626;
+    margin-bottom: 8px;
+  }
+  .error-description {
+    color: #991b1b;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .error-solutions {
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 12px;
+  }
+  .solutions-title {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .error-solutions ol {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .error-solutions li {
+    margin: 6px 0;
+    color: #4b5563;
+    line-height: 1.6;
+    font-size: 13px;
+  }
+  .error-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+  }
+  .error-actions button {
+    padding: 8px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    color: #374151;
+    cursor: pointer;
+    font-size: 14px;
+    width: auto;
+    margin-top: 0;
+    box-shadow: none;
+  }
+  .error-actions button:hover {
+    background: #f9fafb;
+  }
+
+  /* Log modal */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #111827;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .modal-actions button {
+    padding: 6px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    width: auto;
+    margin-top: 0;
+    box-shadow: none;
+  }
+  .modal-actions button:hover {
+    background: #f9fafb;
+  }
+  .log-viewer {
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+    margin: 0;
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    background: #1f2937;
+    color: #f3f4f6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
 </style>
 </head>
 <body>
@@ -321,6 +580,7 @@
 
   <!-- Step 2: Deploy -->
   <div class="panel" id="step2">
+    <span class="back-link" id="backStep1">&larr; Back</span>
     <div class="steps">
       <div class="step-num done">&#10003;</div>
       <div class="step-line done"></div>
@@ -336,7 +596,7 @@
       </div>
       <div class="field" id="telegramTokenField">
         <label>Telegram Bot Token</label>
-        <input type="text" id="botToken" placeholder="123456789:ABCdef..." autocomplete="off">
+        <input type="password" id="botToken" placeholder="123456789:ABCdef..." autocomplete="off">
         <div class="field-hint">Create a bot via <a href="https://t.me/BotFather" target="_blank">@BotFather</a></div>
       </div>
       <div class="field" id="feishuAppIdField" style="display:none">
@@ -359,6 +619,7 @@
 
   <!-- Step 3: Connect -->
   <div class="panel" id="step3">
+    <span class="back-link" id="backStep2">&larr; Back</span>
     <div class="steps">
       <div class="step-num done">&#10003;</div>
       <div class="step-line done"></div>
@@ -389,7 +650,7 @@
 </div>
 
 <script>
-var STATE = window.__STATE__ || { profiles: [], models: [] };
+var STATE = window.__STATE__ || { profiles: [], models: [], envErrors: [] };
 var currentProfile = "default";
 var currentChannel = "telegram";
 var currentModel = "";
@@ -402,10 +663,289 @@ function esc(s) {
   return d.innerHTML;
 }
 
+// Alias for consistency (same as esc)
+function escapeHtml(text) {
+  return esc(text);
+}
+
 function showPanel(id) {
   var panels = document.querySelectorAll(".panel");
   for (var i = 0; i < panels.length; i++) panels[i].classList.remove("active");
   $(id).classList.add("active");
+}
+
+// Show environment errors if any
+function showEnvErrors() {
+  if (!STATE.envErrors || STATE.envErrors.length === 0) return;
+
+  var container = document.querySelector(".container");
+  var errorBanner = document.createElement("div");
+  errorBanner.className = "env-error-banner";
+
+  var title = document.createElement("div");
+  title.className = "env-error-title";
+  var icon = document.createElement("span");
+  icon.className = "env-error-icon";
+  icon.textContent = "⚠️";
+  title.appendChild(icon);
+  var titleText = document.createElement("span");
+
+  // 生成简洁的错误摘要
+  var errorSummary = "环境检查失败";
+  if (STATE.envErrors.length > 0) {
+    var firstError = STATE.envErrors[0].message;
+    if (firstError.includes("Node.js") && firstError.includes("requires Node.js")) {
+      errorSummary += "：Node.js 版本不符合要求";
+    } else if (firstError.includes("Node.js is not installed")) {
+      errorSummary += "：Node.js 未安装";
+    } else if (firstError.includes("Git")) {
+      errorSummary += "：Git 未安装";
+    } else if (firstError.includes("Administrator") || firstError.includes("permission")) {
+      errorSummary += "：权限不足";
+    } else if (firstError.includes("Failed to install OpenClaw")) {
+      errorSummary += "：OpenClaw 安装失败";
+    } else {
+      // 其他未匹配的错误，显示错误数量
+      errorSummary += "：检测到 " + STATE.envErrors.length + " 个问题";
+    }
+  }
+
+  titleText.textContent = errorSummary;
+  title.appendChild(titleText);
+  errorBanner.appendChild(title);
+
+  var desc = document.createElement("div");
+  desc.className = "env-error-desc";
+  desc.textContent = "检测到以下环境问题，部分功能可能无法正常使用：";
+  errorBanner.appendChild(desc);
+
+  var list = document.createElement("ul");
+  list.className = "env-error-list";
+  for (var i = 0; i < STATE.envErrors.length; i++) {
+    var item = document.createElement("li");
+    item.textContent = STATE.envErrors[i].message;
+    list.appendChild(item);
+  }
+  errorBanner.appendChild(list);
+
+  // 添加"一键修复"按钮
+  var fixButton = document.createElement("button");
+  fixButton.className = "fix-button";
+  fixButton.textContent = "🔧 一键修复";
+  fixButton.onclick = startAutoFix;
+  errorBanner.appendChild(fixButton);
+
+  // 第一行：根据错误类型生成动态说明
+  var fixDesc = getFixDescription(STATE.envErrors);
+  var hint = document.createElement("p");
+  hint.className = "fix-hint";
+  hint.textContent = fixDesc;
+  errorBanner.appendChild(hint);
+
+  // 第二行：通用提示
+  var generalHint = document.createElement("p");
+  generalHint.className = "fix-hint-secondary";
+  generalHint.textContent = "💡 部分问题可能无法自动修复，如遇问题请手动修复或联系客服";
+  errorBanner.appendChild(generalHint);
+
+  // Insert after brand, before first panel
+  var brand = container.querySelector(".brand");
+  if (brand && brand.nextSibling) {
+    container.insertBefore(errorBanner, brand.nextSibling);
+  } else {
+    container.insertBefore(errorBanner, container.firstChild);
+  }
+
+  // 禁用 "New Instance" 按钮并添加视觉提示
+  var addBtn = document.getElementById("addBtn");
+  if (addBtn) {
+    addBtn.disabled = true;
+    addBtn.title = "请先修复环境问题";
+    addBtn.style.opacity = "0.5";
+    addBtn.style.cursor = "not-allowed";
+  }
+}
+
+// 根据错误类型生成修复说明
+function getFixDescription(errors) {
+  var hasNodeError = errors.some(function(e) {
+    return e.message.includes("Node.js") && (
+      e.message.includes("requires") ||
+      e.message.includes("not installed") ||
+      e.message.includes("Could not detect") ||
+      e.message.includes("Could not check")
+    );
+  });
+
+  var hasGitError = errors.some(function(e) {
+    return e.message.includes("Git") || e.message.includes("git");
+  });
+
+  var hasOpenclawError = errors.some(function(e) {
+    return e.message.includes("OpenClaw") || e.message.includes("openclaw");
+  });
+
+  var hasConfigError = errors.some(function(e) {
+    return e.message.includes("configuration format") || e.message.includes("doctor --fix");
+  });
+
+  var hasAdminError = errors.some(function(e) {
+    return e.message.includes("Administrator");
+  });
+
+  var descriptions = [];
+
+  if (hasNodeError) {
+    descriptions.push("升级 Node.js 到 22+（旧版本保留）");
+  }
+  if (hasGitError) {
+    descriptions.push("安装 Git");
+  }
+  if (hasOpenclawError) {
+    descriptions.push("安装 OpenClaw CLI");
+  }
+  if (hasConfigError) {
+    descriptions.push("修复配置格式（自动备份）");
+  }
+  if (hasAdminError) {
+    return "⚠️ 需要管理员权限，请右键以管理员身份运行程序";
+  }
+
+  if (descriptions.length === 0) {
+    return "💡 没有可自动修复的问题";
+  }
+
+  return "将自动：" + descriptions.join("、") + "。安全操作，随时可恢复";
+}
+
+// 一键修复流程
+function startAutoFix() {
+  // 1. 获取修复方案
+  fetch("/auto-fix-plan")
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.plan.length === 0) {
+        alert("没有可自动修复的问题");
+        return;
+      }
+
+      // 2. 显示修复计划确认对话框
+      var planText = "将执行以下操作：\n\n";
+      for (var i = 0; i < data.plan.length; i++) {
+        var step = data.plan[i];
+        planText += (i + 1) + ". " + step.title + "\n";
+        for (var j = 0; j < step.commands.length; j++) {
+          planText += "   " + step.commands[j] + "\n";
+        }
+      }
+      var totalTime = 0;
+      for (var i = 0; i < data.plan.length; i++) {
+        totalTime += data.plan[i].estimatedTime;
+      }
+      planText += "\n预计耗时：" + Math.ceil(totalTime / 1000) + " 秒";
+
+      if (!confirm(planText + "\n\n确认开始修复？")) {
+        return;
+      }
+
+      // 3. 执行修复，显示进度（使用 POST + fetch stream）
+      showFixProgress();
+
+      fetch("/auto-fix-stream", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function(response) {
+        if (!response.ok) {
+          throw new Error("修复请求失败");
+        }
+
+        var reader = response.body.getReader();
+        var decoder = new TextDecoder();
+        var buffer = "";
+
+        function readStream() {
+          reader.read().then(function(result) {
+            if (result.done) {
+              return;
+            }
+
+            buffer += decoder.decode(result.value, { stream: true });
+            var lines = buffer.split("\n");
+            buffer = lines.pop(); // 保留不完整的行
+
+            for (var i = 0; i < lines.length; i++) {
+              var line = lines[i].trim();
+              if (line.startsWith("data: ")) {
+                var jsonStr = line.substring(6);
+                try {
+                  var d = JSON.parse(jsonStr);
+                  updateFixProgress(d.percent, d.message);
+
+                  if (d.done) {
+                    hideFixProgress();
+                    setTimeout(function() {
+                      alert("修复完成！\n\n请关闭此程序，然后重新启动应用即可。");
+                    }, 500);
+                    return;
+                  }
+
+                  if (d.error) {
+                    alert("修复失败：" + d.message);
+                    hideFixProgress();
+                    return;
+                  }
+                } catch (e) {
+                  console.error("解析 SSE 数据失败:", e);
+                }
+              }
+            }
+
+            readStream();
+          }).catch(function(err) {
+            alert("修复过程中断：" + err.message);
+            hideFixProgress();
+          });
+        }
+
+        readStream();
+      }).catch(function(err) {
+        alert("修复失败：" + err.message);
+        hideFixProgress();
+      });
+    })
+    .catch(function(err) {
+      alert("获取修复方案失败：" + err.message);
+    });
+}
+
+// 显示修复进度条
+function showFixProgress() {
+  var overlay = document.createElement("div");
+  overlay.id = "fixOverlay";
+  overlay.className = "fix-overlay";
+  overlay.innerHTML =
+    '<div class="fix-modal">' +
+    '<h3>正在修复环境问题</h3>' +
+    '<div class="fix-progress-bar">' +
+    '<div id="fixProgressFill" class="fix-progress-fill"></div>' +
+    '</div>' +
+    '<div id="fixProgressText" class="fix-progress-text">准备中...</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+}
+
+function updateFixProgress(percent, message) {
+  var fill = document.getElementById("fixProgressFill");
+  var text = document.getElementById("fixProgressText");
+  if (fill) fill.style.width = percent + "%";
+  if (text) text.textContent = message;
+}
+
+function hideFixProgress() {
+  var overlay = document.getElementById("fixOverlay");
+  if (overlay) overlay.remove();
 }
 
 // Populate model dropdown
@@ -451,7 +991,7 @@ function renderProfiles(profiles) {
     html += '<div class="profile-actions">';
     if (running) {
       html += '<button class="sm" onclick="openPairingModal(\'' + attrName + '\',\'' + esc(p.channel || '').toLowerCase() + '\')">Approve</button>';
-      html += '<button class="sm danger" onclick="doStop(\'' + attrName + '\',this)">Stop</button>';
+      html += '<button class="sm warning" onclick="doStop(\'' + attrName + '\',this)">Stop</button>';
     } else {
       html += '<button class="sm" onclick="doStart(\'' + attrName + '\',this)">Start</button>';
     }
@@ -478,6 +1018,7 @@ function refreshProfiles(cb) {
 }
 
 function doStart(profile, btn) {
+  var originalText = btn.textContent;
   btn.disabled = true;
   btn.textContent = "Starting...";
   var xhr = new XMLHttpRequest();
@@ -485,15 +1026,169 @@ function doStart(profile, btn) {
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onload = function() {
     if (xhr.status !== 200) {
-      try { alert("Start failed: " + JSON.parse(xhr.responseText).error); } catch(e) { alert("Start failed"); }
+      try {
+        alert("Start failed: " + JSON.parse(xhr.responseText).error);
+      } catch(e) {
+        alert("Start failed");
+      }
+      // 恢复按钮状态
+      btn.disabled = false;
+      btn.textContent = originalText;
+    } else {
+      // 立即刷新一次，然后定期轮询直到 gateway 启动完成
+      refreshProfiles();
+      var pollCount = 0;
+      var pollInterval = setInterval(function() {
+        refreshProfiles();
+        pollCount++;
+        if (pollCount >= 15) { // 最多轮询 15 次（15秒）
+          clearInterval(pollInterval);
+        }
+      }, 1000);
     }
-    setTimeout(function() { refreshProfiles(); }, 2000);
   };
-  xhr.onerror = function() { alert("Network error"); refreshProfiles(); };
+  xhr.onerror = function() {
+    alert("Network error");
+    // 恢复按钮状态
+    btn.disabled = false;
+    btn.textContent = originalText;
+    refreshProfiles();
+  };
   xhr.send(JSON.stringify({ profile: profile }));
 }
 
+// Helper: format logs for display
+function formatLogsForDisplay(logs) {
+  if (!logs || logs.length === 0) return "无日志记录";
+  return logs.map(function(log) {
+    var time = new Date(log.time).toLocaleTimeString("zh-CN");
+    var level = log.level.toUpperCase();
+    var levelPadded = (level + "     ").substring(0, 5);
+    return escapeHtml(time + " [" + levelPadded + "] " + log.message);
+  }).join("\n");
+}
+
+// Show error diagnosis
+function showErrorDiagnosis(diagnosis, logs, targetMsgId, retryHandler) {
+  var errorHtml = '<div class="error-diagnosis">';
+  errorHtml += '<div class="error-title">✗ ' + escapeHtml(diagnosis.title) + '</div>';
+  errorHtml += '<div class="error-description">' + escapeHtml(diagnosis.description) + '</div>';
+
+  if (diagnosis.solutions && diagnosis.solutions.length > 0) {
+    errorHtml += '<div class="error-solutions">';
+    errorHtml += '<div class="solutions-title">解决方案：</div>';
+    errorHtml += '<ol>';
+    diagnosis.solutions.forEach(function(solution) {
+      errorHtml += '<li>' + escapeHtml(solution) + '</li>';
+    });
+    errorHtml += '</ol>';
+    errorHtml += '</div>';
+  }
+
+  if (logs && logs.length > 0) {
+    errorHtml += '<div class="error-actions">';
+    errorHtml += '<button onclick="showLogModal()">查看完整日志</button>';
+    // 使用传入的 retryHandler 或默认的 retryDeploy
+    var retryFn = retryHandler || 'retryDeploy';
+    errorHtml += '<button onclick="' + retryFn + '()">重试</button>';
+    errorHtml += '</div>';
+    // Store logs globally for modal
+    window.currentLogs = logs;
+  }
+
+  errorHtml += '</div>';
+  $(targetMsgId).innerHTML = errorHtml;
+}
+
+// Show log modal
+function showLogModal() {
+  var modal = document.createElement("div");
+  modal.id = "logModal";
+  modal.className = "modal";
+  modal.innerHTML =
+    '<div class="modal-content">' +
+      '<div class="modal-header">' +
+        '<h3>安装日志</h3>' +
+        '<div class="modal-actions">' +
+          '<button onclick="copyLogs()">复制</button>' +
+          '<button onclick="downloadLogs()">下载</button>' +
+          '<button onclick="closeLogModal()">关闭</button>' +
+        '</div>' +
+      '</div>' +
+      '<pre class="log-viewer" id="logContent">' + formatLogsForDisplay(window.currentLogs) + '</pre>' +
+    '</div>';
+  document.body.appendChild(modal);
+}
+
+// Copy logs to clipboard
+function copyLogs() {
+  var logText = formatLogsForDisplay(window.currentLogs);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(logText).then(function() {
+      alert("日志已复制到剪贴板");
+    }).catch(function() {
+      alert("复制失败，请手动选择复制");
+    });
+  } else {
+    // Fallback for older browsers
+    var textarea = document.createElement("textarea");
+    textarea.value = logText;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+      alert("日志已复制到剪贴板");
+    } catch (err) {
+      alert("复制失败，请手动选择复制");
+    }
+    document.body.removeChild(textarea);
+  }
+}
+
+// Download logs as file
+function downloadLogs() {
+  var logText = formatLogsForDisplay(window.currentLogs);
+  var blob = new Blob([logText], { type: "text/plain" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "openclaw-install-" + new Date().toISOString().slice(0, 19).replace(/:/g, "-") + ".log";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Close log modal
+function closeLogModal() {
+  var modal = document.getElementById("logModal");
+  if (modal) modal.remove();
+}
+
+// Retry deploy
+function retryDeploy() {
+  window.currentLogs = null;
+  $("deployBtn").disabled = false;
+  $("deployProgress").classList.remove("active");
+  $("deployFill").style.width = "0%";
+  $("deployFill").classList.remove("error");
+  $("deployPct").textContent = "";
+  $("deployMsg").textContent = "";
+}
+
+// Retry connect (Step3)
+function retryConnect() {
+  window.currentLogs = null;
+  $("connectBtn").disabled = false;
+  $("connectProgress").classList.remove("active");
+  $("connectFill").style.width = "0%";
+  $("connectFill").classList.remove("error");
+  $("connectPct").textContent = "";
+  $("connectMsg").textContent = "";
+}
+
 function doStop(profile, btn) {
+  var originalText = btn.textContent;
   btn.disabled = true;
   btn.textContent = "Stopping...";
   var xhr = new XMLHttpRequest();
@@ -501,16 +1196,40 @@ function doStop(profile, btn) {
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onload = function() {
     if (xhr.status !== 200) {
-      try { alert("Stop failed: " + JSON.parse(xhr.responseText).error); } catch(e) { alert("Stop failed"); }
+      try {
+        alert("Stop failed: " + JSON.parse(xhr.responseText).error);
+      } catch(e) {
+        alert("Stop failed");
+      }
+      // 恢复按钮状态
+      btn.disabled = false;
+      btn.textContent = originalText;
+    } else {
+      // 立即刷新一次，然后定期轮询直到 gateway 停止完成
+      refreshProfiles();
+      var pollCount = 0;
+      var pollInterval = setInterval(function() {
+        refreshProfiles();
+        pollCount++;
+        if (pollCount >= 8) { // 最多轮询 8 次（8秒）
+          clearInterval(pollInterval);
+        }
+      }, 1000);
     }
-    setTimeout(function() { refreshProfiles(); }, 2000);
   };
-  xhr.onerror = function() { alert("Network error"); refreshProfiles(); };
+  xhr.onerror = function() {
+    alert("Network error");
+    // 恢复按钮状态
+    btn.disabled = false;
+    btn.textContent = originalText;
+    refreshProfiles();
+  };
   xhr.send(JSON.stringify({ profile: profile }));
 }
 
 function doDelete(profile, btn) {
   if (!confirm("Delete instance \"" + profile + "\"? This will stop the gateway and remove all configuration.")) return;
+  var originalText = btn.textContent;
   btn.disabled = true;
   btn.textContent = "Deleting...";
   var xhr = new XMLHttpRequest();
@@ -518,11 +1237,25 @@ function doDelete(profile, btn) {
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onload = function() {
     if (xhr.status !== 200) {
-      try { alert("Delete failed: " + JSON.parse(xhr.responseText).error); } catch(e) { alert("Delete failed"); }
+      try {
+        alert("Delete failed: " + JSON.parse(xhr.responseText).error);
+      } catch(e) {
+        alert("Delete failed");
+      }
+      // 恢复按钮状态
+      btn.disabled = false;
+      btn.textContent = originalText;
     }
+    // 无论成功失败都刷新列表
     refreshProfiles();
   };
-  xhr.onerror = function() { alert("Network error"); refreshProfiles(); };
+  xhr.onerror = function() {
+    alert("Network error");
+    // 恢复按钮状态
+    btn.disabled = false;
+    btn.textContent = originalText;
+    refreshProfiles();
+  };
   xhr.send(JSON.stringify({ profile: profile }));
 }
 
@@ -745,6 +1478,7 @@ function openPairingModal(profile, channel) {
 }
 
 // Init
+showEnvErrors();
 initModels();
 renderProfiles(STATE.profiles);
 showPanel("home");
@@ -770,6 +1504,14 @@ $("addBtn").addEventListener("click", function() {
 
 $("backHome").addEventListener("click", function() {
   refreshProfiles(function() { showPanel("home"); });
+});
+
+$("backStep1").addEventListener("click", function() {
+  showPanel("step1");
+});
+
+$("backStep2").addEventListener("click", function() {
+  showPanel("step2");
 });
 
 // --- Step 1: Next ---
@@ -839,63 +1581,116 @@ $("step2Form").addEventListener("submit", function(e) {
   $("deployPct").textContent = "0%";
   $("deployMsg").textContent = "Starting...";
 
-  var params = "profile=" + encodeURIComponent(currentProfile)
-    + "&apiKey=" + encodeURIComponent(apiKey)
-    + "&model=" + encodeURIComponent(currentModel)
-    + "&channel=" + encodeURIComponent(currentChannel);
+  var body = {
+    profile: currentProfile,
+    apiKey: apiKey,
+    model: currentModel,
+    channel: currentChannel
+  };
 
   if (currentChannel === "telegram") {
-    params += "&botToken=" + encodeURIComponent(botToken);
+    body.botToken = botToken;
   } else if (currentChannel === "feishu") {
-    params += "&appId=" + encodeURIComponent(appId);
-    params += "&appSecret=" + encodeURIComponent(appSecret);
+    body.appId = appId;
+    body.appSecret = appSecret;
   }
 
-  var es = new EventSource("/setup-stream?" + params);
-  es.onmessage = function(ev) {
-    var d = JSON.parse(ev.data);
-    if (d.error) {
-      $("deployFill").style.width = "100%";
-      $("deployFill").classList.add("error");
-      $("deployPct").textContent = "Error";
-      $("deployMsg").textContent = d.message;
-      $("deployBtn").disabled = false;
-      es.close();
-      return;
+  fetch("/setup-stream", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  }).then(function(response) {
+    if (!response.ok) {
+      throw new Error("部署请求失败");
     }
-    $("deployFill").style.width = d.percent + "%";
-    $("deployPct").textContent = d.percent + "%";
-    $("deployMsg").textContent = d.message;
-    if (d.done) {
-      es.close();
-      $("step2Form").style.display = "none";
-      setTimeout(function() {
-        // Reset step 3
-        $("telegramId").value = "";
-        $("connectBtn").disabled = false;
-        $("connectProgress").classList.remove("active");
-        $("connectFill").style.width = "0%";
-        $("connectFill").classList.remove("error");
-        $("connectPct").textContent = "";
-        $("connectMsg").textContent = "";
-        $("step3Form").style.display = "";
 
-        $("telegramIdField").style.display = currentChannel === "telegram" ? "" : "none";
-        $("feishuDoneField").style.display = currentChannel === "feishu" ? "" : "none";
-        $("connectBtn").style.display = currentChannel === "telegram" ? "" : "none";
-        $("skipBtn").style.display = currentChannel === "feishu" ? "" : "none";
-        showPanel("step3");
-      }, 800);
+    var reader = response.body.getReader();
+    var decoder = new TextDecoder();
+    var buffer = "";
+
+    function readStream() {
+      reader.read().then(function(result) {
+        if (result.done) {
+          return;
+        }
+
+        buffer += decoder.decode(result.value, { stream: true });
+        var lines = buffer.split("\n");
+        buffer = lines.pop();
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (line.startsWith("data: ")) {
+            var jsonStr = line.substring(6);
+            try {
+              var d = JSON.parse(jsonStr);
+
+              if (d.error) {
+                $("deployFill").style.width = "100%";
+                $("deployFill").classList.add("error");
+                $("deployPct").textContent = "错误";
+
+                if (d.diagnosis) {
+                  showErrorDiagnosis(d.diagnosis, d.logs, "deployMsg");
+                } else {
+                  $("deployMsg").textContent = d.message;
+                }
+
+                $("deployBtn").disabled = false;
+                return;
+              }
+
+              $("deployFill").style.width = d.percent + "%";
+              $("deployPct").textContent = d.percent + "%";
+              $("deployMsg").textContent = d.message;
+
+              if (d.done) {
+                $("step2Form").style.display = "none";
+                setTimeout(function() {
+                  // Reset step 3
+                  $("telegramId").value = "";
+                  $("connectBtn").disabled = false;
+                  $("connectProgress").classList.remove("active");
+                  $("connectFill").style.width = "0%";
+                  $("connectFill").classList.remove("error");
+                  $("connectPct").textContent = "";
+                  $("connectMsg").textContent = "";
+                  $("step3Form").style.display = "";
+
+                  $("telegramIdField").style.display = currentChannel === "telegram" ? "" : "none";
+                  $("feishuDoneField").style.display = currentChannel === "feishu" ? "" : "none";
+                  $("connectBtn").style.display = currentChannel === "telegram" ? "" : "none";
+                  $("skipBtn").style.display = currentChannel === "feishu" ? "" : "none";
+                  showPanel("step3");
+                }, 800);
+                return;
+              }
+            } catch (e) {
+              console.error("解析 SSE 数据失败:", e);
+            }
+          }
+        }
+
+        readStream();
+      }).catch(function(err) {
+        $("deployFill").style.width = "100%";
+        $("deployFill").classList.add("error");
+        $("deployPct").textContent = "错误";
+        $("deployMsg").textContent = "连接丢失：" + err.message;
+        $("deployBtn").disabled = false;
+      });
     }
-  };
-  es.onerror = function() {
+
+    readStream();
+  }).catch(function(err) {
     $("deployFill").style.width = "100%";
     $("deployFill").classList.add("error");
-    $("deployPct").textContent = "Error";
-    $("deployMsg").textContent = "Connection lost";
+    $("deployPct").textContent = "错误";
+    $("deployMsg").textContent = "部署失败：" + err.message;
     $("deployBtn").disabled = false;
-    es.close();
-  };
+  });
 });
 
 // --- Step 3: Done (restart gateway to apply config cleanly) ---
@@ -927,44 +1722,97 @@ $("step3Form").addEventListener("submit", function(e) {
   $("connectPct").textContent = "0%";
   $("connectMsg").textContent = "Starting...";
 
-  var params = "profile=" + encodeURIComponent(currentProfile)
-    + "&channel=" + encodeURIComponent(currentChannel);
+  var body = {
+    profile: currentProfile,
+    channel: currentChannel
+  };
 
   if (currentChannel === "telegram") {
-    params += "&telegramId=" + encodeURIComponent(telegramId);
+    body.telegramId = telegramId;
   }
 
-  var es = new EventSource("/connect-stream?" + params);
-  es.onmessage = function(ev) {
-    var d = JSON.parse(ev.data);
-    if (d.error) {
-      $("connectFill").style.width = "100%";
-      $("connectFill").classList.add("error");
-      $("connectPct").textContent = "Error";
-      $("connectMsg").textContent = d.message;
-      $("connectBtn").disabled = false;
-      es.close();
-      return;
+  fetch("/connect-stream", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  }).then(function(response) {
+    if (!response.ok) {
+      throw new Error("连接请求失败");
     }
-    $("connectFill").style.width = d.percent + "%";
-    $("connectPct").textContent = d.percent + "%";
-    $("connectMsg").textContent = d.message;
-    if (d.done) {
-      es.close();
-      $("step3Form").style.display = "none";
-      setTimeout(function() {
-        refreshProfiles(function() { showPanel("home"); });
-      }, 1200);
+
+    var reader = response.body.getReader();
+    var decoder = new TextDecoder();
+    var buffer = "";
+
+    function readStream() {
+      reader.read().then(function(result) {
+        if (result.done) {
+          return;
+        }
+
+        buffer += decoder.decode(result.value, { stream: true });
+        var lines = buffer.split("\n");
+        buffer = lines.pop();
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (line.startsWith("data: ")) {
+            var jsonStr = line.substring(6);
+            try {
+              var d = JSON.parse(jsonStr);
+
+              if (d.error) {
+                $("connectFill").style.width = "100%";
+                $("connectFill").classList.add("error");
+                $("connectPct").textContent = "错误";
+
+                if (d.diagnosis) {
+                  showErrorDiagnosis(d.diagnosis, d.logs, "connectMsg", "retryConnect");
+                } else {
+                  $("connectMsg").textContent = d.message;
+                }
+
+                $("connectBtn").disabled = false;
+                return;
+              }
+
+              $("connectFill").style.width = d.percent + "%";
+              $("connectPct").textContent = d.percent + "%";
+              $("connectMsg").textContent = d.message;
+
+              if (d.done) {
+                $("step3Form").style.display = "none";
+                setTimeout(function() {
+                  refreshProfiles(function() { showPanel("home"); });
+                }, 1200);
+                return;
+              }
+            } catch (e) {
+              console.error("解析 SSE 数据失败:", e);
+            }
+          }
+        }
+
+        readStream();
+      }).catch(function(err) {
+        $("connectFill").style.width = "100%";
+        $("connectFill").classList.add("error");
+        $("connectPct").textContent = "错误";
+        $("connectMsg").textContent = "连接丢失：" + err.message;
+        $("connectBtn").disabled = false;
+      });
     }
-  };
-  es.onerror = function() {
+
+    readStream();
+  }).catch(function(err) {
     $("connectFill").style.width = "100%";
     $("connectFill").classList.add("error");
-    $("connectPct").textContent = "Error";
-    $("connectMsg").textContent = "Connection lost";
+    $("connectPct").textContent = "错误";
+    $("connectMsg").textContent = "连接失败：" + err.message;
     $("connectBtn").disabled = false;
-    es.close();
-  };
+  });
 });
 </script>
 </body>
